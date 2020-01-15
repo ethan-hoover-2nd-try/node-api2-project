@@ -113,6 +113,27 @@ router.post("/:id/comments", (req, res) => {
 }
 });
 
+// DELETE request
+
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+  
+    Posts.remove(id)
+    .then(post => {
+      if (post) {
+        res.status(200).json({ response: `Deleted user with id: ${id}` })
+      } else {
+        res.status(404).json({ errorMessage: 'The post with the specified ID does not exist.'})
+      }
+    })
+    .catch(error => {
+      console.log('error on DELETE /api/posts/:id', error)
+      res.status(500).json({
+        errorMessage: 'The post could not be removed'
+      })
+    })
+  })
+
 //PUT request
 
 router.put("/:id", (req, res) => {
